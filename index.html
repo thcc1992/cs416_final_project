@@ -10,7 +10,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 4:46 </p>
+  <p> 4:48 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -21,7 +21,7 @@
     async function init() {
     
     // Fetch the CSV data
-      const response = await fetch('https://github.com/thcc1992/cs416_final_project/blob/91001d0103f225a70eab6c35b25ad4c2510b9c70/US-COVID19%20data.csv');
+      const response = await fetch('https://github.com/thcc1992/cs416_final_project/blob/f92bc60473a0e9e42d836ffe86bed0d697f63091/US-COVID19%20data.csv');
       const dataset = await response.text();
 
       // Parse the CSV data

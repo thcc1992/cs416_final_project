@@ -1,33 +1,37 @@
 <!DOCTYPE html>
 <html>
+<script src='https://d3js.org/d3.v5.min.js'></script>
+
 <head>
   <meta charset="UTF-8">
   <title> CS416 (SU23) Final Project </title>
   <link rel="stylesheet" href="style.css">
 </head>
+  
 <body>
   <h1> COVID-19 in the USA in numbers </h1>
   <p> place text here </p>
   <!-- Add your narrative content and data visu alizations here -->
-<svg width=300 height=300>
-</svg>
-<script>
-var data = [4,8,15,16,23,42];
-var color = ['pink','lightyellow','lightgreen','lightcyan','lightblue','violet'];
-var pie = d3.pie();
-var arc = d3.arc().innerRadius(0).outerRadius(100);
-
-var svg = d3.select("svg");
-
-var g = svg.append("g")
-  .attr("transform", "translate(150,150)");
-
-g.selectAll("arc")
-  .data(pie(data))
-  .enter()
-  .append("path")
-  .attr("d", arc)
-  .attr("fill", function(d, i) { return color[i]; })    
+  <svg width=300 height=300>
+    
+  </svg>
+  <script>
+  var data = [4,8,15,16,23,42];
+  var color = ['pink','lightyellow','lightgreen','lightcyan','lightblue','violet'];
+  var pie = d3.pie();
+  var arc = d3.arc().innerRadius(0).outerRadius(100);
+  
+  var svg = d3.select("svg");
+  
+  var g = svg.append("g")
+    .attr("transform", "translate(150,150)");
+  
+  g.selectAll("arc")
+    .data(pie(data))
+    .enter()
+    .append("path")
+    .attr("d", arc)
+    .attr("fill", function(d, i) { return color[i]; })    
 
 </script>
 

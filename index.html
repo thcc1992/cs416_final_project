@@ -19,8 +19,7 @@
   <script>
     
     async function init() {
-
-        // Sample dataset with date values
+       // Sample dataset with date values
     const dataset = [
       { date: '2023-07-01', value: 10 },
       { date: '2023-07-05', value: 15 },
@@ -51,6 +50,8 @@
 
     // Append the graph to the SVG
     const svg = d3.select('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
       .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
@@ -80,6 +81,8 @@
       .attr('stroke', 'steelblue')
       .attr('stroke-width', 2)
       .attr('d', line);
+
+       
     }
 
     

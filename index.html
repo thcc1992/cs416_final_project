@@ -10,7 +10,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 5:19 </p>
+  <p> 5:26 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -57,7 +57,7 @@
 
       // Set the domain of the x and y scales
       xScale.domain(d3.extent(parsedData, d => d.date));
-      yScale.domain([0, d3.max(parsedData, d => d.deaths)]);
+      yScale.domain([0, 5500]);
 
       // Add the x-axis
       svg.append('g')
@@ -84,6 +84,7 @@
         .attr('x', width / 2)
         .attr('y', height + margin.top + 35) // Adjust the y position based on your preference
         .attr('text-anchor', 'middle') // Center the text on the x-axis
+        .attr('font-size', '12px')
         .text('Date');
 
       // Add y-axis label
@@ -91,8 +92,9 @@
         .attr('class', 'y-axis-label')
         .attr('transform', 'rotate(-90)')
         .attr('x', -height / 2)
-        .attr('y', -margin.left + 10) // Adjust the y position based on your preference
+        .attr('y', -margin.left + 20) // Adjust the y position based on your preference
         .attr('text-anchor', 'middle') // Center the text on the y-axis
+        .attr('font-size', '12px')
         .text('Number of Deaths');
       
     }

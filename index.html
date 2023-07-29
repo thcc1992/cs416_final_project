@@ -10,7 +10,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 3:15 </p>
+  <p> 3:50 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -20,59 +20,70 @@
     
     async function init() {
     
-    const dataset = await  d3.csv('https://github.com/thcc1992/cs416_final_project/blob/3b9affe67741d69c64a186aa5935282acc9d727d/US-COVID19%20data.csv')
+    // Fetch the CSV data
+      const response = await fetch('https://raw.githubusercontent.com/thcc1992/cs416_final_project/3b9affe67741d69c64a186aa5935282acc9d727d/US-COVID19%20data.csv');
+      const dataset = await response.text();
 
-    // Set up the dimensions of the graph
-    const margin = { top: 20, right: 30, bottom: 30, left: 50 };
-    const width = 800 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
+      // Parse the CSV data
+      const parsedData = d3.csvParse(dataset, d3.autoType);
 
-    // Parse the date format
-    const parseDate = d3.timeParse('%Y-%m-%d');
+      // Set up the dimensions of the graph
+      const margin = { top: 20, right: 30, bottom: 30, left: 50 };
+      const width = 800 - margin.left - margin.right;
+      const height = 400 - margin.top - margin.bottom;
 
-    // Format the date on the x-axis
-    const formatDate = d3.timeFormat('%b %d');
+      // Parse the date format
+      const parseDate = d3.timeParse('%Y-%m-%d');
 
-    // Create the x and y scales
-    const xScale = d3.scaleTime().range([0, width]);
-    const yScale = d3.scaleLinear().range([height, 0]);
+      // Format the date on the x-axis
+      const formatDate = d3.timeFormat('%b %d');
 
-    // Create the line generator
-    const line = d3.line()
-      .x(d => xScale(parseDate(d.date)))
-      .y(d => yScale(+d.deaths));
+      // Create the x and y scales
+      const xScale = d3.scaleTime().range([0, width]);
+      const yScale = d3.scaleLinear().range([height, 0]);
 
-    // Append the graph to the SVG
-    const svg = d3.select('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .append('g')
-      .attr('transform', `translate(${margin.left}, ${margin.top})`);
+      // Create the line generator
+      const line = d3.line()
+        .x(d => xScale(parseDate(d.date)))
+        .y(d => yScale(+d.deaths));
 
+      // Append the graph to the SVG
+      const svg = d3.select('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-    // Set the domain of the x and y scales
-    xScale.domain(d3.extent(dataset, d => d.date));
-    yScale.domain([0, d3.max(dataset, d => d.deaths)]);
+      // Convert date strings to date objects
+      parsedData.forEach(d => {
+        d.date = parseDate(d.date);
+        d.deaths = +d.deaths;
+      });
 
-    // Add the x-axis
-    svg.append('g')
-      .attr('transform', `translate(0, ${height})`)
-      .call(d3.axisBottom(xScale).tickFormat(formatDate));
+      // Set the domain of the x and y scales
+      xScale.domain(d3.extent(parsedData, d => d.date));
+      yScale.domain([0, d3.max(parsedData, d => d.deaths)]);
 
-    // Add the y-axis
-    svg.append('g')
-      .call(d3.axisLeft(yScale));
+      // Add the x-axis
+      svg.append('g')
+        .attr('transform', `translate(0, ${height})`)
+        .call(d3.axisBottom(xScale).tickFormat(formatDate));
 
-    // Add the line to the graph
-    svg.append('path')
-      .data(dataset)
-      .attr('fill', 'none')
-      .attr('stroke', 'steelblue')
-      .attr('stroke-width', 2)
-      .attr('d', line);
+      // Add the y-axis
+      svg.append('g')
+        .call(d3.axisLeft(yScale));
 
-       
+      // Add the line to the graph
+      svg.append('path')
+        .datum(parsedData)
+        .attr('fill', 'none')
+        .attr('stroke', 'steelblue')
+        .attr('stroke-width', 2)
+        .attr('d', line);
     }
+
+    // Call the init function to start the graph creation
+    init();
 
     
 

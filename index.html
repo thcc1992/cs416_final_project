@@ -16,24 +16,50 @@
     
   </svg>
   <script>
-  var data = [4,8,15,16,23,42];
-  var color = ['pink','lightyellow','lightgreen','lightcyan','lightblue','violet'];
-  var pie = d3.pie();
-  var arc = d3.arc().innerRadius(0).outerRadius(100);
-  
-  var svg = d3.select("svg");
-  
-  var g = svg.append("g")
-    .attr("transform", "translate(150,150)");
-  
-  g.selectAll("arc")
-    .data(pie(data))
-    .enter()
-    .append("path")
-    .attr("d", arc)
-    .attr("fill", function(d, i) { return color[i]; })    
+    
+    async function init() {
 
-</script>
+        const data = await d3.csv('https://flunky.github.io/cars2017.csv');
+
+        const svg = d3.select("svg");
+
+        const xScale = d3.scaleLog().base(10).domain([10, 150]).range([0, 200]);
+        const yScale = d3.scaleLog().base(10).domain([10, 150]).range([200, 0]);
+
+        const xAxis = d3.axisBottom(xScale)
+          .tickValues([10, 20, 50, 100])
+          .tickFormat(d3.format("~s"));
+
+        const yAxis = d3.axisLeft(yScale)
+          .tickValues([10, 20, 50, 100])
+          .tickFormat(d3.format("~s"));
+
+
+        const g = svg.append('g')
+         .attr("transform", "translate(50,50)")
+    
+        svg.append("g")
+          .attr("transform", `translate(50,50)`)
+          .call(yAxis);
+
+
+        svg.append("g")
+          .attr("transform", `translate(50,250)`)
+          .call(xAxis);
+
+
+        g.selectAll("circle")
+          .data(data)
+          .enter()
+          .append("circle")
+          .attr("cx", d => xScale(+d.AverageCityMPG))
+          .attr("cy", d => yScale(+d.AverageHighwayMPG))
+          .attr("r", d => +d.EngineCylinders + 2)
+    }
+
+    
+
+  </script>
 
 </body>
 </html>

@@ -14,49 +14,72 @@
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
-  <svg width=900 height=900>
+  <svg width=900 height=900></svg>
     
-  </svg>
   <script>
     
     async function init() {
 
-        const data = await d3.csv('https://flunky.github.io/cars2017.csv');
+        // Sample dataset with date values
+    const dataset = [
+      { date: '2023-07-01', value: 10 },
+      { date: '2023-07-05', value: 15 },
+      { date: '2023-07-10', value: 20 },
+      { date: '2023-07-15', value: 8 },
+      { date: '2023-07-20', value: 12 },
+    ];
 
-        const svg = d3.select("svg");
+    // Set up the dimensions of the graph
+    const margin = { top: 20, right: 30, bottom: 30, left: 50 };
+    const width = 800 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
 
-        const xScale = d3.scaleLog().base(10).domain([10, 150]).range([0, 200]);
-        const yScale = d3.scaleLog().base(10).domain([10, 150]).range([200, 0]);
+    // Parse the date format
+    const parseDate = d3.timeParse('%Y-%m-%d');
 
-        const xAxis = d3.axisBottom(xScale)
-          .tickValues([10, 20, 50, 100])
-          .tickFormat(d3.format("~s"));
+    // Format the date on the x-axis
+    const formatDate = d3.timeFormat('%b %d');
 
-        const yAxis = d3.axisLeft(yScale)
-          .tickValues([10, 20, 50, 100])
-          .tickFormat(d3.format("~s"));
+    // Create the x and y scales
+    const xScale = d3.scaleTime().range([0, width]);
+    const yScale = d3.scaleLinear().range([height, 0]);
 
+    // Create the line generator
+    const line = d3.line()
+      .x(d => xScale(parseDate(d.date)))
+      .y(d => yScale(d.value));
 
-        const g = svg.append('g')
-         .attr("transform", "translate(50,50)")
-    
-        svg.append("g")
-          .attr("transform", `translate(50,50)`)
-          .call(yAxis);
+    // Append the graph to the SVG
+    const svg = d3.select('svg')
+      .append('g')
+      .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+    // Convert date strings to date objects
+    dataset.forEach(d => {
+      d.date = parseDate(d.date);
+      d.value = +d.value;
+    });
 
-        svg.append("g")
-          .attr("transform", `translate(50,250)`)
-          .call(xAxis);
+    // Set the domain of the x and y scales
+    xScale.domain(d3.extent(dataset, d => d.date));
+    yScale.domain([0, d3.max(dataset, d => d.value)]);
 
+    // Add the x-axis
+    svg.append('g')
+      .attr('transform', `translate(0, ${height})`)
+      .call(d3.axisBottom(xScale).tickFormat(formatDate));
 
-        g.selectAll("circle")
-          .data(data)
-          .enter()
-          .append("circle")
-          .attr("cx", d => xScale(+d.AverageCityMPG))
-          .attr("cy", d => yScale(+d.AverageHighwayMPG))
-          .attr("r", d => +d.EngineCylinders + 2)
+    // Add the y-axis
+    svg.append('g')
+      .call(d3.axisLeft(yScale));
+
+    // Add the line to the graph
+    svg.append('path')
+      .datum(dataset)
+      .attr('fill', 'none')
+      .attr('stroke', 'steelblue')
+      .attr('stroke-width', 2)
+      .attr('d', line);
     }
 
     

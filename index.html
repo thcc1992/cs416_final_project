@@ -42,11 +42,6 @@
       const xScale = d3.scaleTime().range([0, width]);
       const yScale = d3.scaleLinear().range([height, 0]);
 
-      // Create the line generator
-      //const line = d3.line()
-        //.x(d => xScale(parseDate(d.date)))
-        //.y(d => yScale(+d.deaths));
-
       // Append the graph to the SVG
       const svg = d3.select('svg')
         .attr('width', width + margin.left + margin.right)
@@ -57,7 +52,7 @@
       // Convert date strings to date objects
       parsedData.forEach(d => {
         d.date = parseDate(d.date);
-        d.deaths = d.deaths;
+        d.deaths = +d.deaths;
       });
 
       // Set the domain of the x and y scales
@@ -75,11 +70,15 @@
 
       // Add the line to the graph
       g.selectAll("circle")
-          .data(dataset)
+          .data(parsedData)
           .enter()
           .append("circle")
+          .attr("r", 2)
+          .attr("fill", "blue")
           .attr("cx", d => xScale(d.date))
           .attr("cy", d => yScale(+d.deaths))
+          
+      
 
     }
 

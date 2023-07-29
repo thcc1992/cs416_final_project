@@ -10,7 +10,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 5:13 </p>
+  <p> 5:17 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -82,7 +82,7 @@
       svg.append('text')
         .attr('class', 'x-axis-label')
         .attr('x', width / 2)
-        .attr('y', height + margin.top + 20) // Adjust the y position based on your preference
+        .attr('y', height + margin.top + 35) // Adjust the y position based on your preference
         .attr('text-anchor', 'middle') // Center the text on the x-axis
         .text('Date');
 
@@ -90,8 +90,8 @@
       svg.append('text')
         .attr('class', 'y-axis-label')
         .attr('transform', 'rotate(-90)')
-        .attr('x', -height / 2 +10)
-        .attr('y', -margin.left + 20) // Adjust the y position based on your preference
+        .attr('x', -height / 2)
+        .attr('y', -margin.left + 10) // Adjust the y position based on your preference
         .attr('text-anchor', 'middle') // Center the text on the y-axis
         .text('Number of Deaths');
       

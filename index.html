@@ -10,11 +10,11 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 5:05 </p>
+  <p> 5:07 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
-  <svg width=900 height=700></svg>
+  <svg width=900 height=500></svg>
     
   <script>
     
@@ -30,7 +30,7 @@
       // Set up the dimensions of the graph
       const margin = { top: 20, right: 30, bottom: 30, left: 50 };
       const width = 800 - margin.left - margin.right;
-      const height = 700 - margin.top - margin.bottom;
+      const height = 400 - margin.top - margin.bottom;
 
       // Parse the date format
       const parseDate = d3.timeParse('%m/%d/%Y');

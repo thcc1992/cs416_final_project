@@ -10,7 +10,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 4:22 </p>
+  <p> 4:31 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -77,6 +77,40 @@
           .attr("fill", "blue")
           .attr("cx", d => xScale(d.date))
           .attr("cy", d => yScale(d.deaths));
+
+
+      // Add x-axis label
+      svg.append('text')
+        .attr('class', 'x-axis-label')
+        .attr('x', width / 2)
+        .attr('y', height + margin.top + 20) // Adjust the y position based on your preference
+        .attr('text-anchor', 'middle') // Center the text on the x-axis
+        .text('Date reported');
+
+      // Add y-axis label
+      svg.append('text')
+        .attr('class', 'y-axis-label')
+        .attr('transform', 'rotate(-90)')
+        .attr('x', -height / 2)
+        .attr('y', -margin.left + 20)
+        .attr('text-anchor', 'middle')
+        .text('Number of Deaths');
+
+      // Adding border
+      svg.append('rect')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', width)
+        .attr('height', height)
+        .attr('stroke', 'black')
+        .attr('stroke-width', 1)
+        .attr('fill', 'none');
+
+
+
+
+
+      
     }
 
     // Call the init function to start the graph creation

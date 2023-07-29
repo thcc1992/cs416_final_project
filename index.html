@@ -10,7 +10,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 3:56 </p>
+  <p> 3:59 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -57,7 +57,7 @@
       // Convert date strings to date objects
       parsedData.forEach(d => {
         d.date = parseDate(d.date);
-        d.deaths = +d.deaths;
+        d.deaths = d.deaths;
       });
 
       // Set the domain of the x and y scales
@@ -74,12 +74,13 @@
         .call(d3.axisLeft(yScale));
 
       // Add the line to the graph
-      svg.append('path')
-        .data(parsedData)
-        .attr('fill', 'none')
-        .attr('stroke', 'steelblue')
-        .attr('stroke-width', 2)
-        .attr('d', line);
+      g.selectAll("circle")
+          .data(dataset)
+          .enter()
+          .append("circle")
+          .attr("cx", d => xScale(d.date))
+          .attr("cy", d => yScale(+d.deaths))
+
     }
 
     // Call the init function to start the graph creation

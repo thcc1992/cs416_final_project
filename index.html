@@ -14,7 +14,7 @@
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
-  <svg width=900 height=900></svg>
+  <svg width=900 height=700></svg>
     
   <script>
     
@@ -30,13 +30,13 @@
       // Set up the dimensions of the graph
       const margin = { top: 20, right: 30, bottom: 30, left: 50 };
       const width = 800 - margin.left - margin.right;
-      const height = 400 - margin.top - margin.bottom;
+      const height = 700 - margin.top - margin.bottom;
 
       // Parse the date format
       const parseDate = d3.timeParse('%m/%d/%Y');
 
       // Format the date on the x-axis
-      const formatDate = d3.timeFormat('%b %d');
+      const formatDate = d3.timeFormat('%b %Y');
 
       // Create the x and y scales
       const xScale = d3.scaleTime().range([0, width]);
@@ -77,6 +77,23 @@
           .attr("fill", "blue")
           .attr("cx", d => xScale(d.date))
           .attr("cy", d => yScale(d.deaths));
+
+      // Add x-axis label
+      svg.append('text')
+        .attr('class', 'x-axis-label')
+        .attr('x', width / 2)
+        .attr('y', height + margin.top + 20) // Adjust the y position based on your preference
+        .attr('text-anchor', 'middle') // Center the text on the x-axis
+        .text('Date');
+
+      // Add y-axis label
+      svg.append('text')
+        .attr('class', 'y-axis-label')
+        .attr('transform', 'rotate(-90)')
+        .attr('x', -height / 2)
+        .attr('y', -margin.left + 20) // Adjust the y position based on your preference
+        .attr('text-anchor', 'middle') // Center the text on the y-axis
+        .text('Number of Deaths');
       
     }
 

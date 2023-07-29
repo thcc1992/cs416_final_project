@@ -10,7 +10,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 4:04 </p>
+  <p> 4:08 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -33,7 +33,7 @@
       const height = 400 - margin.top - margin.bottom;
 
       // Parse the date format
-      const parseDate = d3.timeParse('%d-%m-%y');
+      const parseDate = d3.timeParse('%d/%m/%y');
 
       // Format the date on the x-axis
       const formatDate = d3.timeFormat('%x');

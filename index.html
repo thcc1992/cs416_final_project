@@ -10,7 +10,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 5:17 </p>
+  <p> 5:19 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -28,7 +28,7 @@
       const parsedData = d3.csvParse(dataset, d3.autoType);
 
       // Set up the dimensions of the graph
-      const margin = { top: 20, right: 30, bottom: 30, left: 50 };
+      const margin = { top: 20, right: 20, bottom: 80, left: 80 };
       const width = 800 - margin.left - margin.right;
       const height = 400 - margin.top - margin.bottom;
 

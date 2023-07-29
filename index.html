@@ -10,7 +10,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 2:02 </p>
+  <p> 3:12 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -19,14 +19,8 @@
   <script>
     
     async function init() {
-       // Sample dataset with date values
-    const dataset = [
-      { date: '2023-07-01', value: 10 },
-      { date: '2023-07-05', value: 15 },
-      { date: '2023-07-10', value: 20 },
-      { date: '2023-07-15', value: 8 },
-      { date: '2023-07-20', value: 12 },
-    ];
+    
+    const dataset = await  d3.csv('https://github.com/thcc1992/cs416_final_project/blob/3b9affe67741d69c64a186aa5935282acc9d727d/US-COVID19%20data.csv')
 
     // Set up the dimensions of the graph
     const margin = { top: 20, right: 30, bottom: 30, left: 50 };
@@ -46,7 +40,7 @@
     // Create the line generator
     const line = d3.line()
       .x(d => xScale(parseDate(d.date)))
-      .y(d => yScale(d.value));
+      .y(d => yScale(+d.deaths));
 
     // Append the graph to the SVG
     const svg = d3.select('svg')
@@ -58,12 +52,12 @@
     // Convert date strings to date objects
     dataset.forEach(d => {
       d.date = parseDate(d.date);
-      d.value = +d.value;
+      d.value = +d.deaths;
     });
 
     // Set the domain of the x and y scales
     xScale.domain(d3.extent(dataset, d => d.date));
-    yScale.domain([0, d3.max(dataset, d => d.value)]);
+    yScale.domain([0, d3.max(dataset, d => d.deaths)]);
 
     // Add the x-axis
     svg.append('g')

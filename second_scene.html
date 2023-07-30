@@ -115,7 +115,7 @@
 
       // Add the circles to the graph
       svg.selectAll("circle")
-          .data(parsedData.filter(function(d,i){return i>0}))
+          .data(parsedData)
           .enter()
           .append("circle")
               .attr("r", 3)

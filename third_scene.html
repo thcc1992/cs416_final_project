@@ -14,9 +14,7 @@
 
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 11:36  </p>
-
-
+  <p> 11:41  </p>
   
   <body onload='init()'>
   <svg width=900 height=500></svg>
@@ -73,37 +71,7 @@
       svg.append('g')
         .call(d3.axisLeft(yScale));
 
-      // Adding tooltip
-      var tooltip = d3.select("svg")
-          .append("div")
-          .style("opacity", 0)
-          .attr("class", "tooltip")
-          .style("background-color", "white")
-          .style("border", "solid")
-          .style("border-width", "1px")
-          .style("border-radius", "5px")
-          .style("padding", "10px");
-
-       var mouseover = function(d) {
-          tooltip
-          .style("opacity", 1)
-        }
-
-        var mousemove = function (d, event) {
-            tooltip
-              .html("Deaths: " + d.deaths)
-              .style("left", event.pageX + "px") // Use pageX instead of d3.mouse(this)[0]
-              .style("top", event.pageY + "px") // Use pageY instead of d3.mouse(this)[1]
-              .style("transform", "translateX(-50%)"); // Center the tooltip horizontally
-          };
-
-        var mouseleave = function(d) {
-        tooltip
-          .transition()
-          .duration(200)
-          .style("opacity", 0)
-      }
-
+     
       // Add the circles to the graph
       svg.selectAll("circle")
           .data(parsedData)
@@ -114,10 +82,7 @@
               .style("opacity", 0.6)
               .style("stroke", "white")
               .attr("cx", d => xScale(d.date))
-              .attr("cy", d => yScale(d.deaths))
-          .on("mouseover", mouseover )
-          .on("mousemove", mousemove )
-          .on("mouseleave", mouseleave );
+              .attr("cy", d => yScale(d.deaths));
 
       // Add x-axis label
       svg.append('text')
@@ -143,32 +108,32 @@
         .scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
         .extent([[0, 0], [width, height]])
         .on("zoom", updateChart);
-      SVG.append("rect")
-      .attr("width", width)
-      .attr("height", height)
-      .style("fill", "none")
-      .style("pointer-events", "all")
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-      .call(zoom);
-  // now the user can zoom and it will trigger the function called updateChart
-
-  // A function that updates the chart when the user zoom and thus new boundaries are available
-  function updateChart() {
-
-    // recover the new scale
-    var newX = d3.event.transform.rescaleX(x);
-    var newY = d3.event.transform.rescaleY(y);
-
-    // update axes with these new boundaries
-    xAxis.call(d3.axisBottom(newX))
-    yAxis.call(d3.axisLeft(newY))
-
-    // update circle position
-    scatter
-      .selectAll("circle")
-      .attr('cx', function(d) {return newX(d.date)})
-      .attr('cy', function(d) {return newY(d.deaths)});
-  }
+      
+      svg.append("rect")
+       .attr("width", width)
+       .attr("height", height)
+       .style("fill", "none")
+       .style("pointer-events", "all")
+       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+       .call(zoom);
+ 
+     // A function that updates the chart when the user zoom and thus new boundaries are available
+     function updateChart() {
+   
+       // recover the new scale
+       var newX = d3.event.transform.rescaleX(xScale);
+       var newY = d3.event.transform.rescaleY(yScale);
+   
+       // update axes with these new boundaries
+       xAxis.call(d3.axisBottom(newX))
+       yAxis.call(d3.axisLeft(newY))
+   
+       // update circle position
+       scatter
+         .selectAll("circle")
+         .attr('cx', function(d) {return newX(d.date)})
+         .attr('cy', function(d) {return newY(d.deaths)});
+     }
 
     }
 

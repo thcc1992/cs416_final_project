@@ -11,7 +11,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 9:15 </p>
+  <p> 9:17 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -104,21 +104,36 @@
       {note: {
           label: "January 2021",
           title: "Period after holiday"
-        }, x: 300, y: 190,
+        }, x: 380, y: 50,
            dx: 50, dy: 50,
         subject: {
-          radius: 50,
-          radiusPadding: 5
+            radius: 50,
+            radiusPadding: 5
         }
       }]
     
       // Add annotation to the chart
       const makeAnnotations = d3.annotation()
-        .annotations(annotations)
+          .annotations(annotations)
     
       d3.select("svg")
-        .append("g")
-        .call(makeAnnotations)
+          .append("g")
+          .call(makeAnnotations)
+
+
+       var tooltip = d3.select("svg")
+          .append("div")
+          .style("opacity", 0)
+          .attr("class", "tooltip")
+          .style("background-color", "white")
+          .style("border", "solid")
+          .style("border-width", "1px")
+          .style("border-radius", "5px")
+          .style("padding", "10px")
+
+
+
+      
      
     }
 

@@ -11,7 +11,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 9:39 </p>
+  <p> 9:43 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -139,14 +139,32 @@
       {note: {
           label: "Peak due to holidays and variant Delta",
           title: "January 2021"
-        }, x: 350, y: 80,
+        }, x: 340, y: 60,
            dx: 50, dy: 50
       }]
     
       // Add annotation to the chart
       const makeAnnotations = d3.annotation()
           .annotations(annotations)
-    
+          .type(d3.annotationLabel)
+          .accessors({
+            x: d => d.x,
+            y: d => d.y
+          })
+          .accessorsInverse({
+            x: d => d.x,
+            y: d => d.y
+          })
+          .connector((annotation) => {
+            return {
+              points: [[annotation.x, annotation.y]]
+            };
+          })
+          .notePadding(15) 
+          .textWrap(100) 
+          .fontSize(12)
+          .titleFontSize(14);    
+      
       d3.select("svg")
           .append("g")
           .call(makeAnnotations)

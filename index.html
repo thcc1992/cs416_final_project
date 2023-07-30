@@ -11,7 +11,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 9:36 </p>
+  <p> 9:39 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -69,7 +69,8 @@
       svg.append('g')
         .call(d3.axisLeft(yScale));
 
-           var tooltip = d3.select("svg")
+      // Adding tooltip
+      var tooltip = d3.select("svg")
           .append("div")
           .style("opacity", 0)
           .attr("class", "tooltip")
@@ -86,7 +87,7 @@
 
         var mousemove = function(d) {
           tooltip
-            .html("Deaths:" +d.deaths)
+            .html("Deaths:" + d.deaths)
             .style("left", (d3.mouse(this)[0]+90) + "px")
             .style("top", (d3.mouse(this)[1]) + "px")
         }

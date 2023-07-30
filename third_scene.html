@@ -7,7 +7,7 @@
 </head>
 <body>
   <h1>Overview of COVID-19 data in the USA</h1>
-  <p>12:21</p>
+  <p>12:42</p>
   
   <button onclick="window.location.href = 'second_scene.html';">Previous</button>
   
@@ -121,9 +121,17 @@
         xAxis.call(d3.axisBottom(newX).tickFormat(formatDate));
         yAxis.call(d3.axisLeft(newY));
 
+        // Filter data points that fall within the visible range after zooming
+        var visibleData = parsedData.filter(function(d) {
+          return newX(d.date) >= 0 && newX(d.date) <= width && newY(d.deaths) >= 0 && newY(d.deaths) <= height;
+        });
+
         // Update circle positions
         scatter.attr('cx', function(d) { return newX(d.date); })
-               .attr('cy', function(d) { return newY(d.deaths); });
+               .attr('cy', function(d) { return newY(d.deaths); })
+               .style('display', function(d) {
+                 return visibleData.includes(d) ? 'block' : 'none';
+               });
       }
     }
 

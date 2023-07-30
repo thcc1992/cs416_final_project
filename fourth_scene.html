@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>CS416 (SU23) Final Project</title>
+  <title>CS416 (SU23) - Tiago Costa</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -12,7 +12,7 @@
   
 <body>
   <h1>Overview of COVID-19 data in the USA</h1>
-  <h2>Time to explore: number of deaths</h2>
+  <h2>Time to explore: mortality rate</h2>
   <p>Now that you have gotten an overview of the data, feel free to explore the data on your own. Use your mouse or touchpad to zoom in and out.</p>
 
   <button id="reset-zoom-btn">Reset View</button>
@@ -101,7 +101,7 @@
         .attr('y', -margin.left + 20)
         .attr('text-anchor', 'middle')
         .attr('font-size', '12px')
-        .text('Number of Deaths');
+        .text('Mortality (deaths per cases)');
 
       var zoom = d3.zoom()
         .scaleExtent([.5, 20])

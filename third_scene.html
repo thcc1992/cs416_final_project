@@ -6,16 +6,13 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<button onclick="window.location.href = 'second_scene.html';"> Previous </button> 
-<button onclick="window.location.href = 'fourth_scene.html';"> Next </button> 
-
-
-  
 <body>
   <h1>Overview of COVID-19 data in the USA</h1>
   <h2>Time to explore: number of deaths</h2>
   <p>Now that you have gotten an overview of the data, feel free to explore the data on your own. Use your mouse or touchpad to zoom in and out.</p>
 
+  <button onclick="window.location.href = 'second_scene.html';"> Previous </button> 
+  <button onclick="window.location.href = 'fourth_scene.html';"> Next </button> 
   <button id="reset-zoom-btn">Reset View</button>
   
   <svg width="900" height="500"></svg>
@@ -155,5 +152,8 @@
     // Call the init function to start the graph creation
     init();
   </script>
-</body>
-</html>
+
+  <!-- The second graph starts here -->
+  <h1>Overview of COVID-19 data in the USA</h1>
+  <h2>Time to explore: number of deaths</h2>
+  <p>Now that you have gotten an overview of the data

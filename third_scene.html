@@ -5,13 +5,11 @@
   <title>CS416 (SU23) Final Project</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
-<button onclick="window.location.href = 'second_scene.html';">Previous</button>
-
 <body>
   <h1>Overview of COVID-19 data in the USA</h1>
-  <p>1:03</p>
+  <p>12:21</p>
   
+  <button onclick="window.location.href = 'second_scene.html';">Previous</button>
   
   <svg width="900" height="500"></svg>
     
@@ -107,7 +105,8 @@
       svg.append("rect")
         .attr("width", width)
         .attr("height", height)
-        .style("fill", "none")
+        .style("fill", "red")
+        .style("opacity", 0.2)
         .style("pointer-events", "all")
         .attr('transform', `translate(${margin.left}, ${margin.top})`)
         .call(zoom);
@@ -133,10 +132,8 @@
                .style('display', function(d) {
                  return visibleData.includes(d) ? 'block' : 'none';
                });
-
       }
-
-
+    }
 
     // Call the init function to start the graph creation
     init();

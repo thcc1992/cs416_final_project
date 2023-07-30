@@ -13,7 +13,7 @@
 
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 10:41 </p>
+  <p> 10:43 </p>
 
 
   
@@ -88,12 +88,13 @@
           .style("opacity", 1)
         }
 
-        var mousemove = function(d) {
-          tooltip
-            .html("Deaths:" + d.deaths)
-            .style("left", (d3.mouse(this)[0]+90) + "px")
-            .style("top", (d3.mouse(this)[1]) + "px")
-        }
+        var mousemove = function (d, event) {
+            tooltip
+              .html("Deaths: " + d.deaths)
+              .style("left", event.pageX + "px") // Use pageX instead of d3.mouse(this)[0]
+              .style("top", event.pageY + "px") // Use pageY instead of d3.mouse(this)[1]
+              .style("transform", "translateX(-50%)"); // Center the tooltip horizontally
+          };
 
         var mouseleave = function(d) {
         tooltip

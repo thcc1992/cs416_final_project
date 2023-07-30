@@ -10,7 +10,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 5:26 </p>
+  <p> 8:31 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -74,7 +74,7 @@
           .enter()
           .append("circle")
           .attr("r", 2)
-          .attr("fill", "blue")
+          .attr("fill", "#69b3a2")
           .attr("cx", d => xScale(d.date))
           .attr("cy", d => yScale(d.deaths));
 

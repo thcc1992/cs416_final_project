@@ -11,7 +11,7 @@ orted<!DOCTYPE html>
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 8:58 </p>
+  <p> 9:02 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -104,8 +104,13 @@ orted<!DOCTYPE html>
       {note: {
           label: "January 2021",
           title: "Period after holiday"
-        }, data: x: 150, y: 150, dy: 150, dx: 150}
-    ]
+        }, x: 150, y: 150, 
+           dx: 150, dy: 150,
+        subject: {
+          radius: 50,
+          radiusPadding: 5
+        }
+      }]
     
       // Add annotation to the chart
       const makeAnnotations = d3.annotation()

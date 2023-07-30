@@ -10,7 +10,7 @@
 
 <body>
   <h1>Overview of COVID-19 data in the USA</h1>
-  <p>12:42</p>
+  <p>12:56</p>
   
   <button onclick="resetChartView()">Reset Chart View</button>
 
@@ -137,11 +137,7 @@
                });
       }
 
-      function resetChartView() {
-      // Reset the zoom and pan to the initial state
-      var svg = d3.select('svg');
-      svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
-    }
+
 
     // Call the init function to start the graph creation
     init();

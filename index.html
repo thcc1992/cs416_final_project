@@ -1,4 +1,4 @@
-orted<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <script src='https://d3js.org/d3.v5.min.js'></script>
 <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
@@ -11,7 +11,7 @@ orted<!DOCTYPE html>
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 9:10 </p>
+  <p> 9:12 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -114,20 +114,8 @@ orted<!DOCTYPE html>
     
       // Add annotation to the chart
       const makeAnnotations = d3.annotation()
-        .editMode(true)
-        .notePadding(15)
-        .type(type)
-        .accessors({
-        x: d => x(parseTime(d.date)),
-        y: d => y(d.deaths)
-        })
-        .accessorsInverse({
-           date: d => timeFormat(x.invert(d.x)),
-           close: d => y.invert(d.y)
-        })
         .annotations(annotations)
-      
-      
+    
       d3.select("svg")
         .append("g")
         .call(makeAnnotations)

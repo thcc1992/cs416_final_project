@@ -80,14 +80,11 @@
         .append("circle")
         .attr("r", 3)
         .attr("fill", "#69b3a2")
-        .style("opacity", 0)
+        .style("opacity", 0.6)
         .style("stroke", "white")
         .attr("cx", d => xScale(d.date))
         .attr("cy", d => yScale(d.deaths))
-        //.style("opacity", 0);
-        .transition()
-        .delay(1000)
-        .style("opacity", 1);
+
 
       // Add x-axis label
       svg.append('text')

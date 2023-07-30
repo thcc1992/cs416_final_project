@@ -11,7 +11,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 9:43 </p>
+  <p> 9:48 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -78,7 +78,7 @@
           .style("border", "solid")
           .style("border-width", "1px")
           .style("border-radius", "5px")
-          .style("padding", "10px")
+          .style("padding", "10px");
 
        var mouseover = function(d) {
           tooltip
@@ -104,15 +104,15 @@
           .data(parsedData)
           .enter()
           .append("circle")
-          .attr("r", 3)
-          .attr("fill", "#69b3a2")
-          .style("opacity", 0.6)
-          .style("stroke", "white")
-          .attr("cx", d => xScale(d.date))
-          .attr("cy", d => yScale(d.deaths))
-        .on("mouseover", mouseover )
-        .on("mousemove", mousemove )
-        .on("mouseleave", mouseleave );
+              .attr("r", 3)
+              .attr("fill", "#69b3a2")
+              .style("opacity", 0.6)
+              .style("stroke", "white")
+              .attr("cx", d => xScale(d.date))
+              .attr("cy", d => yScale(d.deaths))
+          .on("mouseover", mouseover )
+          .on("mousemove", mousemove )
+          .on("mouseleave", mouseleave );
 
       // Add x-axis label
       svg.append('text')

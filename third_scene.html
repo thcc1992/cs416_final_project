@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<script src='https://d3js.org/d3.v5.min.js'></script>
+<script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+
+<head>
+  <meta charset="UTF-8">
+  <title> CS416 (SU23) Final Project </title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<button onclick="window.location.href = 'second_scene.html';"> Previous </button> 
+
+<body>
+  <h1> Third scene </h1>
+  <p> 10:57 </p>
+  
+  <body onload='init()'>
+  <svg width=900 height=500></svg>
+    
+  <script>
+    
+    async function init() {
+    
+    // Fetch the CSV data
+      const response = await fetch('https://raw.githubusercontent.com/thcc1992/cs416_final_project/main/US-COVID19%20mortality.csv');
+      const dataset = await response.text();
+
+      // Parse the CSV data
+      const parsedData = d3.csvParse(dataset, d3.autoType);
+
+      // Set up the dimensions of the graph
+      const margin = { top: 20, right: 20, bottom: 80, left: 80 };
+      const width = 800 - margin.left - margin.right;
+      const height = 400 - margin.top - margin.bottom;
+
+      // Parse the date format
+      const parseDate = d3.timeParse('%m/%d/%Y');
+
+      // Format the date on the x-axis
+      const formatDate = d3.timeFormat('%b %Y');
+
+      // Create the x and y scales
+      const xScale = d3.scaleTime().range([0, width]);
+      const yScale = d3.scaleLinear().range([height, 0]);
+
+      // Append the graph to the SVG
+      const svg = d3.select('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+      // Convert date strings to date objects
+      parsedData.forEach(d => {
+        d.date = parseDate(d.date);
+        d.mortality = +d.mortality;
+      });
+
+      // Set the domain of the x and y scales
+      xScale.domain(d3.extent(parsedData, d => d.date));
+      yScale.domain([0, 0.22]);
+
+      // Add the x-axis
+      svg.append('g')
+        .attr('transform', `translate(0, ${height})`)
+        .call(d3.axisBottom(xScale).tickFormat(formatDate));
+
+      // Add the y-axis
+      svg.append('g')
+        .call(d3.axisLeft(yScale));
+
+      // Adding tooltip
+      var tooltip = d3.select("svg")
+          .append("div")
+          .style("opacity", 0)
+          .attr("class", "tooltip")
+          .style("background-color", "white")
+          .style("border", "solid")
+          .style("border-width", "1px")
+          .style("border-radius", "5px")
+          .style("padding", "10px");
+
+       var mouseover = function(d) {
+          tooltip
+          .style("opacity", 1)
+        }
+
+        var mousemove = function (d, event) {
+            tooltip
+              .html("mortality: " + d.mortality)
+              .style("left", event.pageX + "px") // Use pageX instead of d3.mouse(this)[0]
+              .style("top", event.pageY + "px") // Use pageY instead of d3.mouse(this)[1]
+              .style("transform", "translateX(-50%)"); // Center the tooltip horizontally
+          };
+
+        var mouseleave = function(d) {
+        tooltip
+          .transition()
+          .duration(200)
+          .style("opacity", 0)
+      }
+
+      // Add the circles to the graph
+      svg.selectAll("circle")
+          .data(parsedData)
+          .enter()
+          .append("circle")
+              .attr("r", 3)
+              .attr("fill", "#e25078")
+              .style("opacity", 0.6)
+              .style("stroke", "white")
+              .attr("cx", d => xScale(d.date))
+              .attr("cy", d => yScale(d.mortality))
+          .on("mouseover", mouseover )
+          .on("mousemove", mousemove )
+          .on("mouseleave", mouseleave );
+
+      // Add x-axis label
+      svg.append('text')
+        .attr('class', 'x-axis-label')
+        .attr('x', width / 2)
+        .attr('y', height + margin.top + 35) // Adjust the y position based on your preference
+        .attr('text-anchor', 'middle') // Center the text on the x-axis
+        .attr('font-size', '12px')
+        .text('Date reported');
+
+      // Add y-axis label
+      svg.append('text')
+        .attr('class', 'y-axis-label')
+        .attr('transform', 'rotate(-90)')
+        .attr('x', -height / 2)
+        .attr('y', -margin.left + 20) // Adjust the y position based on your preference
+        .attr('text-anchor', 'middle') // Center the text on the y-axis
+        .attr('font-size', '12px')
+        .text('Mortality (death per case)');
+
+      // Features of the annotation
+            const annotations = [
+            {note: {
+                label: "Peak after holidays and variant Delta",
+                title: "January 2021"
+              }, x: 340, y: 100,
+                 dx: 40, dy: 40
+            },
+            {note: {
+                label: "Peak due to holidays",
+                title: "January 2022"
+              }, x: 597, y: 95,
+                 dx: 40, dy: 40
+            }]
+    
+      // Add annotation to the chart
+      const makeAnnotations = d3.annotation()
+          .annotations(annotations)
+    
+      d3.select("svg")
+          .append("g")
+          .attr("font-size", "12px")
+          .call(makeAnnotations)
+
+    }
+
+    // Call the init function to start the graph creation
+    init();
+
+    
+
+  </script>
+
+</body>
+</html>

@@ -11,7 +11,7 @@ orted<!DOCTYPE html>
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 9:02 </p>
+  <p> 9:08 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -104,8 +104,9 @@ orted<!DOCTYPE html>
       {note: {
           label: "January 2021",
           title: "Period after holiday"
-        }, x: 150, y: 150, 
-           dx: 150, dy: 150,
+        }, data: {date: "1/29/2021", deaths:3950}, 
+           className: "show-bg",
+           dx: 50, dy: 50,
         subject: {
           radius: 50,
           radiusPadding: 5
@@ -114,7 +115,20 @@ orted<!DOCTYPE html>
     
       // Add annotation to the chart
       const makeAnnotations = d3.annotation()
+        .editMode(true)
+        .notePadding(15)
+        .type(type)
+        .accessors({
+        x: d => x(parseTime(d.date)),
+        y: d => y(d.deaths)
+        })
+        .accessorsInverse({
+           date: d => timeFormat(x.invert(d.x)),
+           close: d => y.invert(d.y)
+        })
         .annotations(annotations)
+      
+      
       d3.select("svg")
         .append("g")
         .call(makeAnnotations)

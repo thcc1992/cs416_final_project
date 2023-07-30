@@ -61,7 +61,7 @@
 
       // Set the domain of the x and y scales
       xScale.domain(d3.extent(parsedData, d => d.date));
-      yScale.domain([0, 5500]);
+      yScale.domain([0, 0.22]);
 
       // Add the x-axis
       const xAxis = svg.append('g')
@@ -78,7 +78,7 @@
         .enter()
         .append("circle")
         .attr("r", 3)
-        .attr("fill", "#69b3a2")
+        .attr("fill", "#e25078")
         .style("opacity", 0.6)
         .style("stroke", "white")
         .attr("cx", d => xScale(d.date))

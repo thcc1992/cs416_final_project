@@ -5,11 +5,12 @@
   <title>CS416 (SU23) Final Project</title>
   <link rel="stylesheet" href="style.css">
 </head>
+  
+<button id="reset-zoom-btn">Reset Zoom</button>
+  
 <body>
   <h1>Overview of COVID-19 data in the USA</h1>
   <p>12:21</p>
-  
-  <button onclick="window.location.href = 'second_scene.html';">Previous</button>
   
   <svg width="900" height="500"></svg>
     
@@ -133,6 +134,15 @@
                  return visibleData.includes(d) ? 'block' : 'none';
                });
       }
+
+      // Function to reset the zoom
+      function resetZoom() {
+        // Reset the zoom transform to its initial state
+        svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
+      }
+
+      // Add the event listener to the button
+      document.getElementById('reset-zoom-btn').addEventListener('click', resetZoom);
     }
 
     // Call the init function to start the graph creation

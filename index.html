@@ -11,7 +11,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 9:50 </p>
+  <p> 9:55 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -133,55 +133,23 @@
         .attr('font-size', '12px')
         .text('Number of Deaths');
 
-
-      // Features of the annotation
-const annotations = [
-  {
-    note: {
-      label: "Peak due to holidays and variant Delta",
-      title: "January 2021"
-    },
-    x: 350,
-    y: 80,
-    dx: 50,
-    dy: 50
-  }
-];
-
-// Add annotation to the chart
-const makeAnnotations = d3.annotation()
-  .annotations(annotations)
-  .type(d3.annotationLabel)
-  .accessors({
-    x: d => d.x,
-    y: d => d.y
-  })
-  .accessorsInverse({
-    x: d => d.x,
-    y: d => d.y
-  })
-  .connector((annotation) => {
-    return {
-      points: [[annotation.x, annotation.y]]
-    };
-  })
-  .notePadding(15) // Adjust the padding between the annotation and connector line
-  .textWrap(100) // Set the maximum width of the label text before wrapping
-  .textSize(12) // Set the font size of the label text
-  .titleSize(14); // Set the font size of the title text
-
-// Append a group for annotations to the chart
-const annotationGroup = d3.select("svg")
-  .append("g")
-  .call(makeAnnotations);
-
-// Apply styles to label and title text
-annotationGroup.selectAll(".annotation-note-label")
-  .attr("font-size", "12px") // Set the font size for the label text
-
-annotationGroup.selectAll(".annotation-note-title")
-  .attr("font-size", "14px"); // Set the font size for the title text
-
+// Features of the annotation
+      const annotations = [
+      {note: {
+          label: "Peak due to holidays and variant Delta",
+          title: "January 2021"
+        }, x: 350, y: 80,
+           dx: 50, dy: 50
+      }]
+    
+      // Add annotation to the chart
+      const makeAnnotations = d3.annotation()
+          .annotations(annotations)
+    
+      d3.select("svg")
+          .append("g")
+          .call(makeAnnotations)
+     
     }
 
     // Call the init function to start the graph creation

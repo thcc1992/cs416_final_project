@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+orted<!DOCTYPE html>
 <html>
 <script src='https://d3js.org/d3.v5.min.js'></script>
+<script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
 
 <head>
   <meta charset="UTF-8">
@@ -10,7 +11,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 8:31 </p>
+  <p> 8:39 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -85,7 +86,7 @@
         .attr('y', height + margin.top + 35) // Adjust the y position based on your preference
         .attr('text-anchor', 'middle') // Center the text on the x-axis
         .attr('font-size', '12px')
-        .text('Date');
+        .text('Date reported');
 
       // Add y-axis label
       svg.append('text')
@@ -96,6 +97,29 @@
         .attr('text-anchor', 'middle') // Center the text on the y-axis
         .attr('font-size', '12px')
         .text('Number of Deaths');
+
+
+      // Features of the annotation
+const annotations = [
+  {
+    note: {
+      label: "Here is the annotation label",
+      title: "Annotation title"
+    },
+    x: 100,
+    y: 100,
+    dy: 100,
+    dx: 100
+  }
+]
+
+// Add annotation to the chart
+const makeAnnotations = d3.annotation()
+  .annotations(annotations)
+d3.select("svg")
+  .append("g")
+  .call(makeAnnotations)
+
       
     }
 

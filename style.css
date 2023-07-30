@@ -8,4 +8,9 @@ h1 {
   text-align: left;
 }
 
+tooltip {
+  position: absolute;
+  pointer-events: none;
+}
+
 /* Add more styles as needed */

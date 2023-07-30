@@ -11,7 +11,7 @@ orted<!DOCTYPE html>
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 8:39 </p>
+  <p> 8:46 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -100,27 +100,20 @@ orted<!DOCTYPE html>
 
 
       // Features of the annotation
-const annotations = [
-  {
-    note: {
-      label: "Here is the annotation label",
-      title: "Annotation title"
-    },
-    x: 100,
-    y: 100,
-    dy: 100,
-    dx: 100
-  }
-]
-
-// Add annotation to the chart
-const makeAnnotations = d3.annotation()
-  .annotations(annotations)
-d3.select("svg")
-  .append("g")
-  .call(makeAnnotations)
-
-      
+      const annotations = [
+      {note: {
+          label: "January 2021",
+          title: "Period after holiday"
+        }, x: 50, y: 50, dy: 50, dx: 50}
+    ]
+    
+      // Add annotation to the chart
+      const makeAnnotations = d3.annotation()
+        .annotations(annotations)
+      d3.select("svg")
+        .append("g")
+        .call(makeAnnotations)
+     
     }
 
     // Call the init function to start the graph creation

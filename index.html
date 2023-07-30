@@ -11,7 +11,7 @@
   
 <body>
   <h1> Overview of COVID-19 data in the USA </h1>
-  <p> 9:23 </p>
+  <p> 9:27 </p>
   <!-- Add your narrative content and data visu alizations here -->
   
   <body onload='init()'>
@@ -69,6 +69,35 @@
       svg.append('g')
         .call(d3.axisLeft(yScale));
 
+           var tooltip = d3.select("svg")
+          .append("div")
+          .style("opacity", 0)
+          .attr("class", "tooltip")
+          .style("background-color", "white")
+          .style("border", "solid")
+          .style("border-width", "1px")
+          .style("border-radius", "5px")
+          .style("padding", "10px")
+
+       var mouseover = function(d) {
+          tooltip
+          .style("opacity", 1)
+        }
+
+        var mousemove = function(d) {
+          tooltip
+            .html("Date:" d.date "deaths:" +d.deaths)
+            .style("left", (d3.mouse(this)[0]+90) + "px")
+            .style("top", (d3.mouse(this)[1]) + "px")
+        }
+
+        var mouseleave = function(d) {
+        tooltip
+          .transition()
+          .duration(200)
+          .style("opacity", 0)
+      }
+
       // Add the circles to the graph
       svg.selectAll("circle")
           .data(parsedData)
@@ -105,14 +134,10 @@
       // Features of the annotation
       const annotations = [
       {note: {
-          label: "January 2021",
-          title: "Period after holiday"
-        }, x: 380, y: 50,
-           dx: 50, dy: 50,
-        subject: {
-            radius: 50,
-            radiusPadding: 5
-        }
+          label: "Period after holiday",
+          title: "January 2021"
+        }, x: 350, y: 80,
+           dx: 50, dy: 50
       }]
     
       // Add annotation to the chart
@@ -122,36 +147,6 @@
       d3.select("svg")
           .append("g")
           .call(makeAnnotations)
-
-
-       var tooltip = d3.select("svg")
-          .append("div")
-          .style("opacity", 0)
-          .attr("class", "tooltip")
-          .style("background-color", "white")
-          .style("border", "solid")
-          .style("border-width", "1px")
-          .style("border-radius", "5px")
-          .style("padding", "10px")
-
-       var mouseover = function(d) {
-          tooltip
-          .style("opacity", 1)
-        }
-
-        var mousemove = function(d) {
-          tooltip
-            .html("Date:" d.date "deaths:" +d.deaths)
-            .style("left", (d3.mouse(this)[0]+90) + "px")
-            .style("top", (d3.mouse(this)[1]) + "px")
-        }
-
-        var mouseleave = function(d) {
-        tooltip
-          .transition()
-          .duration(200)
-          .style("opacity", 0)
-      }
      
     }
 

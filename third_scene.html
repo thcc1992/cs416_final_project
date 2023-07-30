@@ -7,7 +7,7 @@
 </head>
 <body>
   <h1>Overview of COVID-19 data in the USA</h1>
-  <p>11:57</p>
+  <p>12:04</p>
   
   <button onclick="window.location.href = 'second_scene.html';">Previous</button>
   
@@ -99,7 +99,7 @@
 
       var zoom = d3.zoom()
         .scaleExtent([.5, 20])
-        .extent([[0, 0], [width, height]])
+        .translateExtent([[0, 0], [width, height]])
         .on("zoom", updateChart);
 
       svg.append("rect")

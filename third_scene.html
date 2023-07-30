@@ -11,25 +11,32 @@
   <h2>Time to explore: number of deaths</h2>
   <p>Now that you have gotten an overview of the data, feel free to explore the data on your own. Use your mouse or touchpad to zoom in and out.</p>
 
-  <button onclick="window.location.href = 'second_scene.html';"> Previous </button> 
-  <button onclick="window.location.href = 'fourth_scene.html';"> Next </button> 
+  <button onclick="window.location.href = 'second_scene.html';">Previous</button>
+  <button onclick="window.location.href = 'fourth_scene.html';">Next</button>
   <button id="reset-zoom-btn">Reset View</button>
-  
+
   <svg width="900" height="500"></svg>
-    
+
   <script src='https://d3js.org/d3.v5.min.js'></script>
   <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
 
   <script>
     async function init() {
-      // Fetch the CSV data
-      const response = await fetch('https://raw.githubusercontent.com/thcc1992/cs416_final_project/main/US-COVID19%20data.csv');
-      const dataset = await response.text();
+      // Fetch the CSV data for the first graph
+      const response1 = await fetch('https://raw.githubusercontent.com/thcc1992/cs416_final_project/main/US-COVID19%20data.csv');
+      const data1 = await response1.text();
+      
+      // Fetch the CSV data for the second graph
+      const response2 = await fetch('https://raw.githubusercontent.com/thcc1992/cs416_final_project/main/US-COVID19%20mortality.csv');
+      const data2 = await response2.text();
 
-      // Parse the CSV data
-      const parsedData = d3.csvParse(dataset, d3.autoType);
+      // Parse the CSV data for the first graph
+      const parsedData1 = d3.csvParse(data1, d3.autoType);
 
-      // Set up the dimensions of the graph
+      // Parse the CSV data for the second graph
+      const parsedData2 = d3.csvParse(data2, d3.autoType);
+
+      // Set up the dimensions of the first graph
       const margin = { top: 20, right: 20, bottom: 80, left: 80 };
       const width = 800;
       const height = 400;
@@ -40,51 +47,50 @@
       // Format the date on the x-axis
       const formatDate = d3.timeFormat('%b %Y');
 
-      // Create the x and y scales
-      const xScale = d3.scaleTime().range([0, width]);
-      const yScale = d3.scaleLinear().range([height, 0]);
+      // Create the x and y scales for the first graph
+      const xScale1 = d3.scaleTime().range([0, width]);
+      const yScale1 = d3.scaleLinear().range([height, 0]);
 
-      // Append the graph to the SVG
-      const svg = d3.select('svg')
+      // Append the first graph to the SVG
+      const svg1 = d3.select('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
         .append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-      // Convert date strings to date objects
-      parsedData.forEach(d => {
+      // Convert date strings to date objects for the first graph
+      parsedData1.forEach(d => {
         d.date = parseDate(d.date);
         d.deaths = +d.deaths;
       });
 
-      // Set the domain of the x and y scales
-      xScale.domain(d3.extent(parsedData, d => d.date));
-      yScale.domain([0, 5500]);
+      // Set the domain of the x and y scales for the first graph
+      xScale1.domain(d3.extent(parsedData1, d => d.date));
+      yScale1.domain([0, 5500]);
 
-      // Add the x-axis
-      const xAxis = svg.append('g')
+      // Add the x-axis for the first graph
+      const xAxis1 = svg1.append('g')
         .attr('transform', `translate(0, ${height})`)
-        .call(d3.axisBottom(xScale).tickFormat(formatDate));
+        .call(d3.axisBottom(xScale1).tickFormat(formatDate));
 
-      // Add the y-axis
-      const yAxis = svg.append('g')
-        .call(d3.axisLeft(yScale));
+      // Add the y-axis for the first graph
+      const yAxis1 = svg1.append('g')
+        .call(d3.axisLeft(yScale1));
 
-      // Add the circles to the graph
-      const scatter = svg.selectAll("circle")
-        .data(parsedData)
+      // Add the circles to the first graph
+      const scatter1 = svg1.selectAll("circle")
+        .data(parsedData1)
         .enter()
         .append("circle")
         .attr("r", 3)
         .attr("fill", "#69b3a2")
         .style("opacity", 0.6)
         .style("stroke", "white")
-        .attr("cx", d => xScale(d.date))
-        .attr("cy", d => yScale(d.deaths))
+        .attr("cx", d => xScale1(d.date))
+        .attr("cy", d => yScale1(d.deaths));
 
-
-      // Add x-axis label
-      svg.append('text')
+      // Add x-axis label for the first graph
+      svg1.append('text')
         .attr('class', 'x-axis-label')
         .attr('x', width / 2)
         .attr('y', height + margin.top + 35)
@@ -92,8 +98,8 @@
         .attr('font-size', '12px')
         .text('Date reported');
 
-      // Add y-axis label
-      svg.append('text')
+      // Add y-axis label for the first graph
+      svg1.append('text')
         .attr('class', 'y-axis-label')
         .attr('transform', 'rotate(-90)')
         .attr('x', -height / 2)
@@ -102,58 +108,44 @@
         .attr('font-size', '12px')
         .text('Number of Deaths');
 
-      var zoom = d3.zoom()
+      var zoom1 = d3.zoom()
         .scaleExtent([.5, 20])
         .translateExtent([[0, 0], [width, height]])
-        .on("zoom", updateChart);
+        .on("zoom", updateChart1);
 
-      svg.append("rect")
+      svg1.append("rect")
         .attr("width", width)
         .attr("height", height)
         .style("fill", "none")
         .style("opacity", 0.2)
         .style("pointer-events", "all")
         .attr('transform', `translate(${margin.left}, ${margin.top})`)
-        .call(zoom);
+        .call(zoom1);
 
-      // A function that updates the chart when the user zooms and new boundaries are available
-      function updateChart() {
+      // A function that updates the first chart when the user zooms and new boundaries are available
+      function updateChart1() {
         // Recover the new scale
-        var newX = d3.event.transform.rescaleX(xScale);
-        var newY = d3.event.transform.rescaleY(yScale);
+        var newX = d3.event.transform.rescaleX(xScale1);
+        var newY = d3.event.transform.rescaleY(yScale1);
 
         // Update axes with these new boundaries
-        xAxis.call(d3.axisBottom(newX).tickFormat(formatDate));
-        yAxis.call(d3.axisLeft(newY));
+        xAxis1.call(d3.axisBottom(newX).tickFormat(formatDate));
+        yAxis1.call(d3.axisLeft(newY));
 
         // Filter data points that fall within the visible range after zooming
-        var visibleData = parsedData.filter(function(d) {
+        var visibleData = parsedData1.filter(function(d) {
           return newX(d.date) >= 0 && newX(d.date) <= width && newY(d.deaths) >= 0 && newY(d.deaths) <= height;
         });
 
         // Update circle positions
-        scatter.attr('cx', function(d) { return newX(d.date); })
+        scatter1.attr('cx', function(d) { return newX(d.date); })
                .attr('cy', function(d) { return newY(d.deaths); })
                .style('display', function(d) {
                  return visibleData.includes(d) ? 'block' : 'none';
                });
       }
 
-      // Function to reset the zoom
-      function resetZoom() {
+      // Function to reset the zoom for the first graph
+      function resetZoom1() {
         // Reset the zoom transform to its initial state
-        svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
-      }
-
-      // Add the event listener to the button
-      document.getElementById('reset-zoom-btn').addEventListener('click', resetZoom);
-    }
-
-    // Call the init function to start the graph creation
-    init();
-  </script>
-
-  <!-- The second graph starts here -->
-  <h1>Overview of COVID-19 data in the USA</h1>
-  <h2>Time to explore: number of deaths</h2>
-  <p>Now that you have gotten an overview of the data
+        svg1.transition().
